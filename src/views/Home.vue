@@ -19,7 +19,7 @@ export default {
     div.container
         div.list
             div(v-for="(book, index) in books")
-                BookItem.bookItem(:book="book", :class="{ 'bookItem--highlighted': index % 2 !== 0 }")
+                book-item.bookItem(:book="book", :class="{ 'bookItem--highlighted': index % 2 !== 0 }")
 </template>
 
 <style lang="scss" scoped>

@@ -38,7 +38,7 @@ div.container
             div.year {{ `${strings.year}: ${book.year}` }}
     div.content--right
         div.action
-            AppButton 
+            app-button 
                 img.action__icon(src="@/assets/add_shopping_cart.svg")
                 span.action__text {{ strings.addToCart }}
         div.price {{ `$${book.price}` }}
@@ -116,7 +116,10 @@ div.container
     }
 }
 .price {
+    font-size: 19px;
+    font-weight: 600;
+
     padding: 4px 0;
-    color: #e65100;
+    color: #d31d1d;
 }
 </style>
