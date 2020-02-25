@@ -3,6 +3,8 @@
 import BookItem from '@/components/BookItem.vue'
 import AppTextField from '@/components/AppTextField'
 import books from '@/data/books.js'
+import strings from '@/strings/main'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'Home',
@@ -12,12 +14,16 @@ export default {
     },
     data() {
         return {
+            strings,
             searchText: '',
         }
     },
     computed: {
+        ...mapGetters(['numberOfBooks']),
         books() {
-            return books.filter(book => book.name.includes(this.searchText))
+            return books.filter(book =>
+                book.name.toLowerCase().includes(this.searchText.toLowerCase())
+            )
         },
     },
 }
@@ -28,9 +34,11 @@ div
     div#nav
         div.title Book Shopping
         div.search
-            app-text-field.search__field(placeholder="Поиск", v-model="searchText")
+            app-text-field.search__field(:placeholder="strings.search", v-model="searchText")
         div.shoppingCart
+            span.shoppingCart__name {{ strings.shoppingCart + (numberOfBooks > 0 ? ` | ${numberOfBooks}` : '') }}
             img.shoppingCart__icon(src="@/assets/shopping_cart.svg")
+            
     div.content
         div.list
             div(v-for="(book, index) in books")
@@ -84,8 +92,16 @@ div
 .shoppingCart {
     flex: 1;
 
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    &__name {
+        padding-right: 16px;
+
+        font-size: 22px;
+    }
+
     &__icon {
-        float: right;
         width: 32px;
     }
 }

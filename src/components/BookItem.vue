@@ -1,7 +1,7 @@
 <script>
-import strings from '@/strings/main'
-
 import AppButton from '@/components/AppButton'
+import strings from '@/strings/main'
+import { mapMutations } from 'vuex'
 
 export default {
     name: 'BookItem',
@@ -13,12 +13,12 @@ export default {
     },
     data() {
         return {
-            strings: strings,
-
+            strings,
             imageEnlarged: false,
         }
     },
     methods: {
+        ...mapMutations(['addBook']),
         enlargeImage() {
             this.imageEnlarged = !this.imageEnlarged
             console.log('xD')
@@ -38,7 +38,7 @@ div.container
             div.year {{ `${strings.year}: ${book.year}` }}
     div.content--right
         div.action
-            app-button 
+            app-button(@click="addBook(book)")
                 img.action__icon(src="@/assets/add_shopping_cart.svg")
                 span.action__text {{ strings.addToCart }}
         div.price {{ `$${book.price}` }}

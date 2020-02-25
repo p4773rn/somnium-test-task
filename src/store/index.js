@@ -4,8 +4,19 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-    state: {},
-    mutations: {},
+    state: {
+        booksInShoppingCart: [],
+    },
+    getters: {
+        numberOfBooks: state => {
+            return state.booksInShoppingCart.length
+        },
+    },
+    mutations: {
+        addBook(state, payload) {
+            state.booksInShoppingCart.push(payload)
+        },
+    },
     actions: {},
     modules: {},
 })

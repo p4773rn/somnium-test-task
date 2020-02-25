@@ -5,7 +5,7 @@ export default {
 </script>
 
 <template lang="pug">
-button.appButton
+button.appButton(@click="$emit('click')")
     slot
         | Submit
 </template>
