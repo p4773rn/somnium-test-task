@@ -11,8 +11,6 @@ export default {
 <template lang="pug">
     div#app
         navigation
-        //- <router-link to="/">Home</router-link> |
-        //- <router-link to="/about">About</router-link>
         router-view
 </template>
 

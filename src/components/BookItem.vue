@@ -22,7 +22,6 @@ export default {
         ...mapMutations(['addBook', 'removeBook']),
         enlargeImage() {
             this.imageEnlarged = !this.imageEnlarged
-            console.log('xD')
         },
     },
 }
@@ -49,7 +48,6 @@ div.container
 
 <style lang="scss" scoped>
 .container {
-    width: 100%;
     min-height: 100px;
 
     padding: 8px 8px;

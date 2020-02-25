@@ -18,6 +18,11 @@ export default new Vuex.Store({
         searchQuery: state => {
             return state.searchQuery
         },
+        totalCost: state => {
+            return state.booksInShoppingCart
+                .map(book => parseInt(book.price))
+                .reduce((a, b) => a + b, 0)
+        },
     },
     mutations: {
         addBook(state, payload) {
