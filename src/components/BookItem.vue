@@ -7,6 +7,7 @@ export default {
     name: 'BookItem',
     props: {
         book: Object,
+        inCart: Boolean,
     },
     components: {
         AppButton,
@@ -18,7 +19,7 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(['addBook']),
+        ...mapMutations(['addBook', 'removeBook']),
         enlargeImage() {
             this.imageEnlarged = !this.imageEnlarged
             console.log('xD')
@@ -38,9 +39,11 @@ div.container
             div.year {{ `${strings.year}: ${book.year}` }}
     div.content--right
         div.action
-            app-button(@click="addBook(book)")
+            app-button(v-if="!inCart", @click="addBook(book)")
                 img.action__icon(src="@/assets/add_shopping_cart.svg")
                 span.action__text {{ strings.addToCart }}
+            app-button(v-else, @click="removeBook(book)")
+                span.action__text {{ strings.removeFromCart }}
         div.price {{ `$${book.price}` }}
 </template>
 
@@ -111,7 +114,7 @@ div.container
         padding-right: 4px;
     }
     &__text {
-        padding-right: 4px;
+        padding: 4px;
         font-size: 16px;
     }
 }

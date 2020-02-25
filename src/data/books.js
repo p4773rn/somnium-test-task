@@ -25,6 +25,7 @@ for (let i = 1; i <= 20; i++) {
         name += names[Math.floor(Math.random() * names.length)]
     }
     booksArray.push({
+        id: i,
         name: `${name} ${i}`,
         price: `${i * 100}`,
         author: 'John Doe',

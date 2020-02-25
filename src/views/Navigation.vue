@@ -1,48 +1,52 @@
 <script>
-// @ is an alias to /src
-import BookItem from '@/components/BookItem.vue'
 import AppTextField from '@/components/AppTextField'
-import books from '@/data/books.js'
 import strings from '@/strings/main'
 import { mapGetters } from 'vuex'
 
 export default {
-    name: 'Home',
+    name: 'Navigation',
     components: {
-        BookItem,
         AppTextField,
     },
     data() {
         return {
             strings,
-            searchText: '',
         }
     },
     computed: {
         ...mapGetters(['numberOfBooks']),
-        books() {
-            return books.filter(book =>
-                book.name.toLowerCase().includes(this.searchText.toLowerCase())
-            )
+        searchQuery: {
+            get() {
+                return this.$store.state.searchQuery
+            },
+            set(value) {
+                this.$store.commit('updateSearchQuery', value)
+            },
+        },
+        currentRouteIsShop() {
+            return this.$route.name === 'Shop'
+        },
+    },
+    methods: {
+        updateSearchQuery(e) {
+            this.$store.commit('updateSearchQuery', e.target.value)
         },
     },
 }
 </script>
-
 <template lang="pug">
-div
-    div#nav
-        div.title Book Shopping
-        div.search
-            app-text-field.search__field(:placeholder="strings.search", v-model="searchText")
-        div.shoppingCart
-            span.shoppingCart__name {{ strings.shoppingCart + (numberOfBooks > 0 ? ` | ${numberOfBooks}` : '') }}
+div#nav
+    div.title Book Shopping
+    div.search
+        app-text-field.search__field(:placeholder="strings.search", v-model="searchQuery")
+    div.shoppingCart
+        router-link.shoppingCart__link(v-if="currentRouteIsShop", to="/cart")
             img.shoppingCart__icon(src="@/assets/shopping_cart.svg")
-            
-    div.content
-        div.list
-            div(v-for="(book, index) in books")
-                book-item.bookItem(:book="book", :class="{ 'bookItem--highlighted': index % 2 !== 0 }")
+            span.shoppingCart__name {{ strings.shoppingCart + (numberOfBooks > 0 ? ` | ${numberOfBooks}` : '') }}
+        router-link.shoppingCart__link(v-else, to="/")
+            img.shoppingCart__icon(src="@/assets/arrow_back.svg")
+            span.shoppingCart__name {{ strings.back }}
+
 </template>
 
 <style lang="scss" scoped>
@@ -60,14 +64,6 @@ div
     font-size: 30px;
 
     padding: 16px;
-    a {
-        font-weight: bold;
-        color: #2c3e50;
-
-        &.router-link-exact-active {
-            color: #425eb9;
-        }
-    }
 }
 
 .title {
@@ -95,29 +91,22 @@ div
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    &__name {
-        padding-right: 16px;
 
+    &__link {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        text-decoration: none;
+        color: white;
+    }
+    &__name {
         font-size: 22px;
     }
 
     &__icon {
+        padding-right: 16px;
         width: 32px;
     }
-}
-
-.content {
-    margin-top: 96px;
-}
-
-.list {
-    max-width: 900px;
-    margin: auto;
-}
-.bookItem {
-    background: #cfd8dc;
-}
-.bookItem--highlighted {
-    background: #eceff1;
 }
 </style>
