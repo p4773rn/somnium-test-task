@@ -3,12 +3,13 @@ export default {
     name: 'AppTextField',
     props: {
         placeholder: String,
+        value: String,
     },
 }
 </script>
 
 <template lang="pug">
-input.appTextField(:placeholder="placeholder")
+input.appTextField(:placeholder="placeholder", :value="value", @input="$emit('input', $event.target.value)")
 </template>
 
 <style lang="scss" scoped>
